@@ -1,5 +1,6 @@
 import { Loader, Title } from '@gnosis.pm/safe-react-components'
 import { ReactElement } from 'react'
+import { useSelector } from 'react-redux'
 
 import Img from 'src/components/layout/Img'
 import NoTransactionsImage from './assets/no-transactions.svg'
@@ -9,8 +10,10 @@ import { Centered, NoTransactions } from './styled'
 import { TxsInfiniteScroll } from './TxsInfiniteScroll'
 import { TxLocationContext } from './TxLocationProvider'
 import { MemoizedBatchExecute } from 'src/routes/safe/components/Transactions/TxList/BatchExecute'
+import { batchExecuteSelector } from 'src/logic/settings/selectors'
 
 export const QueueTransactions = (): ReactElement => {
+  const batchExecute = useSelector(batchExecuteSelector)
   const { count, isLoading, hasMore, next, transactions } = usePagedQueuedTransactions()
 
   if (count === 0 && isLoading) {
@@ -34,7 +37,7 @@ export const QueueTransactions = (): ReactElement => {
 
   return (
     <>
-      <MemoizedBatchExecute />
+      {batchExecute && <MemoizedBatchExecute />}
       <TxsInfiniteScroll next={next} hasMore={hasMore} isLoading={isLoading}>
         {/* Next list */}
         <TxLocationContext.Provider value={{ txLocation: 'queued.next' }}>
