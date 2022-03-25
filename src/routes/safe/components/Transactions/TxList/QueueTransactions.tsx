@@ -11,6 +11,7 @@ import { TxsInfiniteScroll } from './TxsInfiniteScroll'
 import { TxLocationContext } from './TxLocationProvider'
 import { MemoizedBatchExecute } from 'src/routes/safe/components/Transactions/TxList/BatchExecute'
 import { batchExecuteSelector } from 'src/logic/settings/selectors'
+import { BatchExecuteHoverProvider } from 'src/routes/safe/components/Transactions/TxList/BatchExecuteHoverProvider'
 
 export const QueueTransactions = (): ReactElement => {
   const batchExecute = useSelector(batchExecuteSelector)
@@ -37,18 +38,20 @@ export const QueueTransactions = (): ReactElement => {
 
   return (
     <>
-      {batchExecute && <MemoizedBatchExecute />}
-      <TxsInfiniteScroll next={next} hasMore={hasMore} isLoading={isLoading}>
-        {/* Next list */}
-        <TxLocationContext.Provider value={{ txLocation: 'queued.next' }}>
-          {transactions.next.count !== 0 && <QueueTxList transactions={transactions.next.transactions} />}
-        </TxLocationContext.Provider>
+      <BatchExecuteHoverProvider>
+        {batchExecute && <MemoizedBatchExecute />}
+        <TxsInfiniteScroll next={next} hasMore={hasMore} isLoading={isLoading}>
+          {/* Next list */}
+          <TxLocationContext.Provider value={{ txLocation: 'queued.next' }}>
+            {transactions.next.count !== 0 && <QueueTxList transactions={transactions.next.transactions} />}
+          </TxLocationContext.Provider>
 
-        {/* Queue list */}
-        <TxLocationContext.Provider value={{ txLocation: 'queued.queued' }}>
-          {transactions.queue.count !== 0 && <QueueTxList transactions={transactions.queue.transactions} />}
-        </TxLocationContext.Provider>
-      </TxsInfiniteScroll>
+          {/* Queue list */}
+          <TxLocationContext.Provider value={{ txLocation: 'queued.queued' }}>
+            {transactions.queue.count !== 0 && <QueueTxList transactions={transactions.queue.transactions} />}
+          </TxLocationContext.Provider>
+        </TxsInfiniteScroll>
+      </BatchExecuteHoverProvider>
     </>
   )
 }
