@@ -37,21 +37,19 @@ export const QueueTransactions = (): ReactElement => {
   }
 
   return (
-    <>
-      <BatchExecuteHoverProvider>
-        {batchExecute && <MemoizedBatchExecute />}
-        <TxsInfiniteScroll next={next} hasMore={hasMore} isLoading={isLoading}>
-          {/* Next list */}
-          <TxLocationContext.Provider value={{ txLocation: 'queued.next' }}>
-            {transactions.next.count !== 0 && <QueueTxList transactions={transactions.next.transactions} />}
-          </TxLocationContext.Provider>
+    <BatchExecuteHoverProvider>
+      {batchExecute && <MemoizedBatchExecute />}
+      <TxsInfiniteScroll next={next} hasMore={hasMore} isLoading={isLoading}>
+        {/* Next list */}
+        <TxLocationContext.Provider value={{ txLocation: 'queued.next' }}>
+          {transactions.next.count !== 0 && <QueueTxList transactions={transactions.next.transactions} />}
+        </TxLocationContext.Provider>
 
-          {/* Queue list */}
-          <TxLocationContext.Provider value={{ txLocation: 'queued.queued' }}>
-            {transactions.queue.count !== 0 && <QueueTxList transactions={transactions.queue.transactions} />}
-          </TxLocationContext.Provider>
-        </TxsInfiniteScroll>
-      </BatchExecuteHoverProvider>
-    </>
+        {/* Queue list */}
+        <TxLocationContext.Provider value={{ txLocation: 'queued.queued' }}>
+          {transactions.queue.count !== 0 && <QueueTxList transactions={transactions.queue.transactions} />}
+        </TxLocationContext.Provider>
+      </TxsInfiniteScroll>
+    </BatchExecuteHoverProvider>
   )
 }
