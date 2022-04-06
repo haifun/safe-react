@@ -2,7 +2,6 @@
 /build
 .DS_Store
 yarn-error.log
-.env*
 .eslintcache
 /.idea
 dist
@@ -17,3 +16,5 @@ tsconfig.tsbuildinfo
 public/**/*.js
 jest.results.json
 *.#*
+
+.vercel
